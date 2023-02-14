@@ -8,12 +8,12 @@ const productSchema = new Schema({
         required: true
     },
 
-    Category: {
+    category: {
         type: String,
         required: true
     },
 
-    Description: {
+    description: {
         type: String,
         required: true
     },
@@ -27,11 +27,6 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
-
-    comment: [
-        commentModel
-    ]
-    ,
 
     availability:{
         type: Boolean,
