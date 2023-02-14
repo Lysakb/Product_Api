@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const {connectToMongodb} = require("./database");
+const userRouter = require("./route/userRoute");
 
 const app = express();
 connectToMongodb();
@@ -9,6 +10,7 @@ const PORT = 5000;
 
 
 app.use(express.json());
+app.use("/user", userRouter);
 
 app.use((err, req, res, next)=>{
     console.log(err);

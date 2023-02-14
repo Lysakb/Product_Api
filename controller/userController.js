@@ -1,4 +1,4 @@
-const userModel = require('../models/user');
+const userModel = require('../model/user');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -35,10 +35,10 @@ const userLogin = async (req, res)=>{
         }
         const validPassword = await bcrypt.compare(password, user.password);
         if(!validPassword){
-            res.status(500).send({message: "Invalid password, please try again"});
+            res.status(400).send({message: "Invalid password, please try again"});
         }
         
-        const userID = {
+        const userId = {
             id: user._id,
             email: user.email
         }
