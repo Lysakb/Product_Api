@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const userSignup = async (req, res)=>{
-        const {username, email, password} = req.body;
+        const {username, email, password, role} = req.body;
     
         try {
             const salt = await bcrypt.genSalt(10);
@@ -11,7 +11,8 @@ const userSignup = async (req, res)=>{
             const user = new userModel({
                 username: username,
                 email: email,
-                password: hashedPassword
+                password: hashedPassword,
+                role: role
             })
 
             const savedUser = await userModel.findOne({email});
@@ -51,7 +52,20 @@ const userLogin = async (req, res)=>{
     }
 }
 
+const getAllUsers = async (req, res)=>{
+    try{
+        const user = await userModel.find();
+        if(!user){
+            res.status(400).send("No users found!")
+        }
+        res.status(200).send(user);
+    }catch(error){
+        res.status(400).send(error.message);
+    }
+}
+
 module.exports = {
     userSignup,
-    userLogin
+    userLogin,
+    getAllUsers
 }
