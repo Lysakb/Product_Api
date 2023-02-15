@@ -17,7 +17,7 @@ const userSignup = async (req, res)=>{
 
             const savedUser = await userModel.findOne({email});
             if(savedUser){
-                res.status(400).send({message: "User already exists, please login"});
+             return res.status(400).send({message: "User already exists, please login"});
             }
             await user.save();
             res.status(200).send({message: "Signup successful!", user});
@@ -32,11 +32,11 @@ const userLogin = async (req, res)=>{
     try{
         const user = await userModel.findOne({email});
         if(!user){
-            res.status(400).send({message: "User does not exist, please signup"});
+          return  res.status(400).send({message: "User does not exist, please signup"});
         }
         const validPassword = await bcrypt.compare(password, user.password);
         if(!validPassword){
-            res.status(400).send({message: "Invalid password, please try again"});
+          return  res.status(400).send({message: "Invalid password, please try again"});
         }
         
         const userId = {
@@ -56,7 +56,7 @@ const getAllUsers = async (req, res)=>{
     try{
         const user = await userModel.find();
         if(!user){
-            res.status(400).send("No users found!")
+          return  res.status(400).send("No users found!")
         }
         res.status(200).send(user);
     }catch(error){
@@ -64,8 +64,39 @@ const getAllUsers = async (req, res)=>{
     }
 }
 
+const getUserById = async(req,res)=>{
+    const id = req.params.id;
+    try{
+        const user = await userModel.findById(id);
+        if(!user){
+          return  res.status(400).send("No users found!")
+        }
+        res.status(200).send(user);
+    }catch(error){
+        res.status(400).send(error.message);
+    }
+}
+
+const editRole = async (req, res)=>{
+    const id = req.params.id;
+    const {role} = req.body;
+
+    try {
+        const user = await userModel.findByIdAndUpdate(id, {role: role})
+        if(!user){
+            return res.status(500).send("user not found!")
+        }
+        await user.save()
+        res.status(200).send({message: "role updated successfully!", user: user.role})
+        } catch (error) { 
+        res.status(400).send(error.message);
+    }
+}
+
 module.exports = {
     userSignup,
     userLogin,
-    getAllUsers
+    getAllUsers,
+    getUserById,
+    editRole
 }
