@@ -18,8 +18,8 @@ const addProduct = async (req, res)=>{
     try{
         const product = new productModel({
             product_name  : product_name,
-            Category : category,
-            Description : description,
+            category : category,
+            description : description,
             image : image,
             price : price,
         })
@@ -45,32 +45,31 @@ const getProductById = async (req, res)=>{
 }
 
 const updateProduct = async (req, res)=>{
-    const id = req.params;
+    const id = req.params.id;
+    
     const {product_name, category, description, image, price, availability} = req.body;
     
     try{
-        const product = await productModel.findByIdAndUpdate(id, {
-            product_name  : product_name,
+        const product = await productModel.findByIdAndUpdate(id, {$set: {
+            product_name  : product_name, 
             Category : category,
             Description : description,
             image : image,
-            price : price,
+            price : price, 
             availability : availability,
-        },
-        {new:true}
-        );
-        if(!product){
-            res.status(400).send({message:"This product is currently not available!"})
-        }
-        await product.save();
-        res.status(200).send(product);
+        }, 
+    
+    },
+    {new: true}) 
+        await product.save()
+        res.status(200).send({message: "Product updated successfully", product});
     }catch(error){
         res.status(400).send(error.message);
     }
-}
+} 
 
 const deleteProduct = async (req, res)=>{
-    const id = req.params;
+    const id = req.params.id;
     try{
         const product = await productModel.findByIdAndDelete(id);
         if(!product){
