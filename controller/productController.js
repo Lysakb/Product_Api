@@ -12,9 +12,21 @@ const getAllProducts = async (req, res)=>{
     }
 }
 
-const addProduct = async (req, res)=>{
-    const {product_name, category, description, image, price, availability} = req.body;
+const getAvailableProducts = async (req, res)=>{
+    
+   try {
+    const availableProducts = await productModel.find().where({available : "true"}) 
+        res.status(200).send(availableProducts);
+    
+   } catch (error) {
+    res.status(400).send(error.message);
+   }
+   
+}
 
+const addProduct = async (req, res)=>{ 
+    const {product_name, category, description, image, price, available} = req.body;
+   
     try{
         const product = new productModel({
             product_name  : product_name,
@@ -22,6 +34,7 @@ const addProduct = async (req, res)=>{
             description : description,
             image : image,
             price : price,
+            available : available
         })
 
         await product.save();
@@ -47,18 +60,19 @@ const getProductById = async (req, res)=>{
 const updateProduct = async (req, res)=>{
     const id = req.params.id;
     
-    const {product_name, category, description, image, price, availability} = req.body;
-    
+    const {product_name, category, description, image, price, available} = req.body;
+   
     try{
         const product = await productModel.findByIdAndUpdate(id, {$set: {
             product_name  : product_name, 
-            Category : category,
-            Description : description,
-            image : image,
+            category : category,  
+            description : description,
+            image : image, 
             price : price, 
-            availability : availability,
+            available : available,
+            
         }, 
-    
+   
     },
     {new: true}) 
         await product.save()
@@ -81,4 +95,4 @@ const deleteProduct = async (req, res)=>{
     }
 }
 
-module.exports = {getAllProducts, getProductById, addProduct, updateProduct, deleteProduct}
+module.exports = {getAllProducts,getAvailableProducts ,getProductById, addProduct, updateProduct, deleteProduct}

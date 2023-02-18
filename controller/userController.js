@@ -93,10 +93,30 @@ const editRole = async (req, res)=>{
     }
 }
 
+const userLogout = async(req, res)=>{
+    // const id = req.user._id;
+    const token = req.token;
+    console.log(token);
+    try {
+       const deleteToken = await userModel.findByIdAndDelete(id, verifiedToken);
+       res.status(200).send("log out successfully") 
+  
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+      
+}
+
+// app.get('/logout', (req, res) => {
+//     res.clearCookie('nToken');
+//     return res.redirect('/');
+//   });
+
 module.exports = {
     userSignup,
     userLogin,
     getAllUsers,
     getUserById,
-    editRole
+    editRole,
+    userLogout
 }

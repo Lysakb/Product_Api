@@ -28,12 +28,13 @@ const productSchema = new Schema({
         required: true
     },
 
-    availability:{
-        type: Boolean,
-        default: true,
-        enum: [true, false]
+    available:{
+        type: String,
+        required: true,
+        default: "true",
+        enum: ["true", "false"]
     }
 })
 
 const productModel = mongoose.model("Product", productSchema);
-module.exports = productModel;
+module.exports = productModel; 
