@@ -33,8 +33,14 @@ const productSchema = new Schema({
         required: true,
         default: "true",
         enum: ["true", "false"]
-    }
-})
+    },
+
+    comment : [{
+        type: mongoose.Schema.apply(commentModel),
+        required: true,
+        ref: "Comment"
+    }]
+}) 
 
 const productModel = mongoose.model("Product", productSchema);
 module.exports = productModel; 
