@@ -146,7 +146,7 @@ SETUP
 ## MIDDLEWARE
 
 ### Authentication
-### This enables authentication of users
+This enables authentication of users
 
 ### Authorization
-### This enables authorization of admin and vendors
+This enables authorization of admin and vendors
