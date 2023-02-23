@@ -106,10 +106,6 @@ const userLogout = async(req, res)=>{
       
 }
 
-// app.get('/logout', (req, res) => {
-//     res.clearCookie('nToken');
-//     return res.redirect('/');
-//   });
 
 module.exports = {
     userSignup,

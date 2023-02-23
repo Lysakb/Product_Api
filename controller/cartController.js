@@ -20,7 +20,17 @@ const addCart = async (req, res)=>{
 }
 
 const getCart = async (req, res)=>{
-    
+    try {
+        const cart = await cartSchema.find().populate("product_id", {product_name: 1, category: 1, price: 1})
+
+        res.status(200).send(cart)
+
+        if(!cart){
+            return res.status(404).send({message:"You do not have any cart"})
+        }
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 }
 
-module.exports = {addCart};
+module.exports = {addCart, getCart};
