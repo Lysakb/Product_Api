@@ -10,6 +10,6 @@ userRouter.post("/login", userLogin);
 userRouter.get("/get", getAllUsers);
 userRouter.put("/update/:id", authenticateUser, adminAuthorization, editRole);
 userRouter.get("/get/:id", getUserById);
-userRouter.get("/logout",userLogout); 
+userRouter.post("/logout",userLogout); 
  
 module.exports = userRouter; 

@@ -3,26 +3,22 @@ const productModel = require("./product");
 const Schema = mongoose.Schema;
 
 const cartSchema = new Schema(
-  {
+  [{
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
     product_id: {
-          type: String,
-        //   required: true
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product"
         },
     
     quantity: {
-        type: Number,
-        required: true
+      type: Number,
+     required: true
     },
     
-    modifiedOn: {
-      type: Date,
-      default: Date.now
-    }
-  },
+  }],
   { timestamps: true }
 );
 
