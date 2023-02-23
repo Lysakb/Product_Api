@@ -94,13 +94,12 @@ const editRole = async (req, res)=>{
 }
 
 const userLogout = async(req, res)=>{
-    // const id = req.user._id;
-    const token = req.token;
-    console.log(token);
+    const token = "";
+    console.log(req.token)
     try {
-       const deleteToken = await userModel.findByIdAndDelete(id, verifiedToken);
-       res.status(200).send("log out successfully") 
-  
+       
+       res.status(200).send("log out successfully", token) 
+ 
     } catch (error) {
         res.status(400).send(error.message);
     }
