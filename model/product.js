@@ -36,7 +36,7 @@ const productSchema = new Schema({
     },
 
     comment : [{
-        type: mongoose.Schema.apply(commentModel),
+        type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Comment"
     }]

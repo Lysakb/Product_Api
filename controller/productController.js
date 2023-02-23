@@ -2,7 +2,7 @@ const productModel = require("../model/product");
 
 const getAllProducts = async (req, res)=>{
     try{
-        const product = await productModel.find();
+        const product = await productModel.find().populate("comment", {text: 1, username: 1});
         if(!product){
             res.status(400).send("Products are not available at the moment")
         }
@@ -45,9 +45,9 @@ const addProduct = async (req, res)=>{
 }
 
 const getProductById = async (req, res)=>{
-    const id = req.params;
+    const {id} = req.params;
     try{
-        const product = await productModel.findById(id);
+        const product = await productModel.findById(id).populate("comment", {text: 1, username: 1});
         if(!product){
             res.status(400).send({message:"This product is currently not available!"})
         }
