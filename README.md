@@ -1,16 +1,16 @@
-# Product_Api
+## Product_Api
 
 REQUIREMENTS
-1. User should have a first name, last name, email and password.
-2. User should be able to signup and signin into the blog app.
+1. User should have a username, email, password and role.
+2. User should be able to signup and signin into the product API.
 3. User will sign in using JWT strategy and token expires in 1 hour.
-4. Blogs are only created by signed in users
-5. Blog default state is draft. 
-6. Blog owners should be able to update blog to published state, edit and delete blog in any state.
-7. Blogs are paginated to 20 blogs per page and searchable by author, title and tags.
-8. Reading_time is calculated for each blog. 
-9. Rate limiting which reduces the number of times a request is made to enable proper functioning of the server
-10. Security measures is added
+4. Default role is admin. Other roles are user and vendor.
+5. Only admin can upgrade user role to vendor.
+6. Only admin should be able to update, edit and delete products.
+7. Users can add to cart.
+8. Users are able to comment on each product.
+9. Users should be able to only view available products.
+
 
 SETUP
 1. Install dependencies
@@ -18,28 +18,34 @@ SETUP
 
 
 
-
 ### user model
 | field  |  data_type | constraints  |
 |---|---|---|
-|  firstname | string  |  required |
+|  username | string  |  required |
 |  lastname  |  string |  required |
 |  email     | string  |  required |
 |  password |   string |  required  |
 
-
-
-### blog model
+### product model
 | field  |  data_type | constraints  |
 |---|---|---|
-|  title |  string |  required |
+|  product_name |  string |  required |
+|  category |  string |  required |
 |  description | string  |  required |
-|  author  |  string |  required  |
-|  state   | string  |  required |
-|  read_count |   number |  required  |
-|  reading_time |  string |  required |
-|  body |  string |  required |
-|  tags |  string |  required |
+|  image  |  string |  required  |
+|  comment  | string  |  required |
+|  price |   number |  required  |
+|  available |  string |  required |
+
+### cart model
+| field  |  data_type | constraints  |
+|---|---|---|
+| quantity | string  |  required |
+
+### comment model
+| field  |  data_type | constraints  |
+|---|---|---|
+|  text | string  |  required |
 
 ### user-signup
 
@@ -48,8 +54,7 @@ SETUP
 - Body: 
 ``
 {
-  "first_name": "Elizabeth",
-  "last_name": "Borokinni",
+  "username": "Elizabeth",
   "email": "Elizabeth@gmail.com",
   "password": "Eli"
 }
@@ -66,56 +71,82 @@ SETUP
   "password": "Eli"  
 }
 ``
-### BLOG-MODEL
+### PRODUCT-MODEL
 
-### Create blog
+### Create product
 
-- Route: /blog/create
+- Route: /product/add
 - Method: POST
 - Header - Authorization: Bearer {token}
 
 ---
 
-### Get blog >> get all blogs
+### Get product >> get all product
 
-- Route: /blog/get
+- Route: /product/get
 - Method: GET
 
 ---
 
-### Get blog by id >> get a particular blog
+### Get product >> get available product
 
-- Route: /blog/get/:id
+- Route: /product/available
 - Method: GET
 
-### Update blog by id
+---
 
-- Route: /blog/update/:id
+### Get product by id >> get a particular product
+
+- Route: /product/get/:id
+- Method: GET
+
+---
+
+### Update product by id
+
+- Route: /product/update/:id
 - Method: PUT
 - Header - Authorization: Bearer {token}
 
 ---
 
-### Delete blog by id
+### Delete product by id
 
-- Route: /blog/delete/:id
+- Route: /product/delete/:id
 - Method: DELETE
 - Header - Authorization: Bearer {token}
 
 ---
 
-### Get user blog 
+### CART-MODEL
 
-- Route: /blog/userblog
+### Get cart >> get all carts
+
+- Route: /cart/get-cart
 - Method: GET
-- Header - Authorization: Bearer {token}
 
 ---
 
-###Rate Limiting
+### Create cart >> add cart
 
-- This is to limit the number of times a request is made to the server. This is to enable proper functioning of the server  
+- Route: /cart/add-to-cart
+- Method: POST
 
 ---
-### Contributor
-- ELIZABETH BOROKINNI
+
+### COMMENT-MODEL
+
+### Create comment >> add comment
+
+- Route: /comment/:id
+- Method: POST
+
+---
+
+## MIDDLEWARE
+
+### Authentication
+### This enables authentication of users
+
+### Authorization
+### This enables authorization of admin and vendors
